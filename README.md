@@ -45,7 +45,7 @@ A Node.js server will start on `http://localhost:3000`.
 
 Alternatively, you can install this example by using this shortcut to deploy to Heroku:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Adyen/adyen-components-js-sample-code)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nobuyaiwao/component-js)
 
 ## Documentation
 
