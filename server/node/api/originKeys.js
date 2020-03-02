@@ -7,6 +7,7 @@ module.exports = (res, request) => {
     const originDomains = [`${request.protocol}://${request.headers.host}`];
     const params = getPostParameters('originKeys', { originDomains });
     console.log(originDomains);
+    console.log(params);
 
     post(params, (err, response, body) => handleCallback({ err, response, body }, res));
 };
