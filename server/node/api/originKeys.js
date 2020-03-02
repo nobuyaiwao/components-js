@@ -4,8 +4,7 @@ const getPostParameters = require('../utils/getPostParameters');
 const handleCallback = require('../utils/handleCallback');
 
 module.exports = (res, request) => {
-    const originDomains = [`${request.protocol}://${request.hostname}`];
-    //const originDomains = [`${request.protocol}://${request.headers.host}`];
+    const originDomains = [`${request.protocol}://${request.headers.host}`];
     const params = getPostParameters('originKeys', { originDomains });
     console.log(originDomains);
 
