@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 const path = require('path');
 const getPaymentMethods = require('./api/paymentMethods');
 const getOriginKeys = require('./api/originKeys');
 const makePayment = require('./api/payments');
 
 module.exports = (() => {
+    app.use(morgan('combined'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 

@@ -1,4 +1,4 @@
-# Structure
+# Get Into the Structure
 ## Package.json anyway
 ```json
 {
@@ -189,7 +189,7 @@ getOriginKey().then(originKey => {
 │       └── handleCallback.js
 ```
 
-### API - index.js
+### index.js
 ```javascript
 require('dotenv').config();
 const express = require('express');
@@ -220,7 +220,21 @@ module.exports = (() => {
 })();
 ```
 
-### API - getPostParameters.js
+### UTIL - config.js
+```javascript
+const { CHECKOUT_APIKEY, MERCHANT_ACCOUNT } = process.env;
+
+const API_VERSION = 'v52';
+const CHECKOUT_URL = `https://checkout-test.adyen.com/${API_VERSION}`;
+
+module.exports = {
+    CHECKOUT_APIKEY,
+    CHECKOUT_URL,
+    MERCHANT_ACCOUNT
+};
+```
+
+### UTIL - getPostParameters.js
 ```javascript
 const { CHECKOUT_APIKEY, CHECKOUT_URL, MERCHANT_ACCOUNT } = require('./config');
 
@@ -242,5 +256,34 @@ module.exports = (endpoint, request) => {
     };
 };
 
+```
+
+### UTIL - handleCallback.js
+```javascript
+module.exports = ({ error, response = {}, body }, res) => {
+    if (error) {
+        console.error(error);
+        return res.send(error);
+    }
+
+    if (response.statusCode && response.statusMessage) {
+        console.log(`Request to ${res.req.url} ended with status ${response.statusCode} - ${response.statusMessage}`);
+    }
+
+    res.send(body);
+};
+```
+
+### API - get paymentMethods.js
+```javascript
+const { post } = require('request');
+const getPostParameters = require('../utils/getPostParameters');
+const handleCallback = require('../utils/handleCallback');
+
+module.exports = (res, request) => {
+    const params = getPostParameters('paymentMethods', request);
+
+    post(params, (error, response, body) => handleCallback({ error, response, body }, res));
+};
 ```
 
