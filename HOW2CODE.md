@@ -274,7 +274,22 @@ module.exports = ({ error, response = {}, body }, res) => {
 };
 ```
 
-### API - get paymentMethods.js
+### API - originKeys.js
+```javascript
+onst { post } = require('request');
+const { MERCHANT_ACCOUNT } = require('../utils/config');
+const getPostParameters = require('../utils/getPostParameters');
+const handleCallback = require('../utils/handleCallback');
+
+module.exports = (res, request) => {
+    const originDomains = [`${request.protocol}://${request.headers.host}`];
+    const params = getPostParameters('originKeys', { originDomains });
+
+    post(params, (err, response, body) => handleCallback({ err, response, body }, res));
+};
+```
+
+### API - paymentMethods.js
 ```javascript
 const { post } = require('request');
 const getPostParameters = require('../utils/getPostParameters');
@@ -287,3 +302,15 @@ module.exports = (res, request) => {
 };
 ```
 
+### API - payments.js
+```javascript
+const { post } = require('request');
+const getPostParameters = require('../utils/getPostParameters');
+const handleCallback = require('../utils/handleCallback');
+
+module.exports = (res, request) => {
+    const params = getPostParameters('/payments', request);
+
+    post(params, (err, response, body) => handleCallback({ err, response, body }, res));
+};
+```
