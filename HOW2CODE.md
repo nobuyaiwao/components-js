@@ -6,7 +6,7 @@ src/
 node_modules/
 ```
 
-## src/
+## src/ - Client Side
 ```
 .
 ├── index.html        // Links 
@@ -22,6 +22,7 @@ node_modules/
                       //    httpPost : post $2 data to $1 endpoint
                       //    getPaymetnMethods : post "paymentMethodsConfig" to 'paymentMethods'
                       //    makePayment : post "paymentsDefaultConfig" + $2 config + $1 paymentMethod to 'payments'
+                      //    getOriginKey : post to 'originKeys'
 
 ├── favicon.ico
 ├── dropin
@@ -136,7 +137,7 @@ getOriginKey().then(originKey => {
 });
 ```
 
-## server/
+## server/ - Server Side
 ```
 ├── node
 │   ├── index.js
@@ -150,4 +151,58 @@ getOriginKey().then(originKey => {
 │       └── handleCallback.js
 ```
 
+### API - index.js
+```javascript
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const path = require('path');
+const getPaymentMethods = require('./api/paymentMethods');
+const getOriginKeys = require('./api/originKeys');
+const makePayment = require('./api/payments');
+
+module.exports = (() => {
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        next();
+    });
+
+    app.use(express.static(path.resolve(__dirname, '../../src')));
+
+    app.all('/originKeys', (req, res) => getOriginKeys(res, req));
+    app.all('/paymentMethods', (req, res) => getPaymentMethods(res, req.body));
+    app.all('/payments', (req, res) => makePayment(res, req.body));
+
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => console.log(`Listening on localhost:${port}`));
+})();
+```
+
+### API - getPostParameters.js
+```javascript
+const { CHECKOUT_APIKEY, CHECKOUT_URL, MERCHANT_ACCOUNT } = require('./config');
+
+module.exports = (endpoint, request) => {
+    const body = JSON.stringify({
+        merchantAccount: MERCHANT_ACCOUNT,
+        ...request
+    });
+
+    return {
+        body,
+        url: `${CHECKOUT_URL}/${endpoint}`,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(body, 'utf8'),
+            'X-Api-Key': CHECKOUT_APIKEY
+        }
+    };
+};
+
+```
 
