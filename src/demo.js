@@ -1,6 +1,12 @@
+const paymentInfo = document.querySelector('.payment-info');
 const stateContainer = document.querySelector('.current-state');
 const requestContainer = document.querySelector('.request-container');
 const responseContainer = document.querySelector('.response-container');
+
+//
+function updatePaymentInfo(pmInfo) {
+    paymentInfo.innerText = JSON.stringify(pmInfo, null, 2);
+}
 
 // Demo - Update current component state container
 function updateStateContainer(newState) {

@@ -6,6 +6,11 @@ getOriginKey().then(originKey => {
         originKey: originKey // Mandatory. originKey from Costumer Area
     });
 
+    // 
+    //updatePaymentInfo( paymentMethodsConfig );
+    //updatePaymentInfo( paymentsDefaultConfig );
+    updatePaymentInfo({ ...paymentsDefaultConfig });
+
     // 2. Create and mount the Component
     const card = checkout
         .create('card', {
