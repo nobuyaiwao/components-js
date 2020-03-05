@@ -1,35 +1,23 @@
 const paymentMethodsConfig = {
     shopperReference: 'Checkout Components sample code test',
     reference: 'Checkout Components sample code test',
-    countryCode: 'NL',
+    countryCode: 'KR',
     amount: {
-        value: 1000,
-        currency: 'EUR'
+        value: 500,
+        currency: 'KRW'
     }
 };
 
 const paymentsDefaultConfig = {
     shopperReference: 'Checkout Components sample code test',
     reference: 'Checkout Components sample code test',
-    countryCode: 'NL',
+    countryCode: 'KR',
     channel: 'Web',
     returnUrl: 'https://your-company.com/',
     amount: {
-        value: 1000,
-        currency: 'EUR'
-    },
-    lineItems: [
-        {
-            id: '1',
-            description: 'Test Item 1',
-            amountExcludingTax: 10000,
-            amountIncludingTax: 11800,
-            taxAmount: 1800,
-            taxPercentage: 1800,
-            quantity: 1,
-            taxCategory: 'High'
-        }
-    ]
+        value: 500,
+        currency: 'KRW'
+    }
 };
 
 // Generic POST Helper
