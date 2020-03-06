@@ -8,10 +8,10 @@ const https = require('https');
 const getPaymentMethods = require('./api/paymentMethods');
 const getOriginKeys = require('./api/originKeys');
 const makePayment = require('./api/payments');
-const options = {
-  key:  fs.readFileSync('./server_key.pem'),
-  cert: fs.readFileSync('./server.crt')
-};
+//const options = {
+//  key:  fs.readFileSync('./server_key.pem'),
+//  cert: fs.readFileSync('./server.crt')
+//};
 
 module.exports = (() => {
     app.use(morgan('combined'));
@@ -31,6 +31,6 @@ module.exports = (() => {
     app.all('/payments', (req, res) => makePayment(res, req.body));
 
     const port = process.env.PORT || 3000;
-    https.createServer( options, app ).listen(port, () => console.log(`Listening on localhost:${port}`));
-    //app.listen(port, () => console.log(`Listening on localhost:${port}`));
+    //https.createServer( options, app ).listen(port, () => console.log(`Listening on localhost:${port}`));
+    app.listen(port, () => console.log(`Listening on localhost:${port}`));
 })();
